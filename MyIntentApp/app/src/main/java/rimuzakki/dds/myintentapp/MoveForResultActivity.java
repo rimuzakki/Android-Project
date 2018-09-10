@@ -11,7 +11,7 @@ public class MoveForResultActivity extends AppCompatActivity implements View.OnC
     private Button btnChoose;
     private RadioGroup rgNumber;
     public static String EXTRA_SELECTED_VALUE = "extra_selected_value";
-    public static int RESULT_CODE = 110;
+    public static int RESULT_CODE = 110; //pemberian nilai bebas
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +25,7 @@ public class MoveForResultActivity extends AppCompatActivity implements View.OnC
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.btn_choose) {
-            if (rgNumber.getCheckedRadioButtonId() != 0) {
+            if (rgNumber.getCheckedRadioButtonId() != 0) { //validasi apakah ada nilai dr obyek RadioButton
                 int value = 0;
 
                 switch (rgNumber.getCheckedRadioButtonId()) {
@@ -42,6 +42,11 @@ public class MoveForResultActivity extends AppCompatActivity implements View.OnC
                         value = 200;
                         break;
                 }
+
+                // Kita membuat sebuah intent tanpa ada inputan apapun di konstruktornya.
+                // Kemudian kita meletakkan variabel value kedalam metode putExtra(Key, Value) dengan EXTRA_SELECTED_VALUE bertipekan static string dan bernilai “extra_selected_value”.
+                // Kemudian kita jadikan obyek resultIntent yang telah dibuat sebelumnya menjadi parameter dari setResult(RESULT_CODE, Intent).
+                // Setelah itu, kita panggil method finish() untuk menutup MoveForResultActivity.
 
                 Intent resultIntent = new Intent();
                 resultIntent.putExtra(EXTRA_SELECTED_VALUE, value);

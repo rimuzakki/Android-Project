@@ -41,14 +41,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tvResult = (TextView)findViewById(R.id.tv_result);
     }
 
+    //code untuk perpindahan activity
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            // pindah activity, intent explicit
             case R.id.btn_move_activity:
                 Intent moveIntent = new Intent(MainActivity.this, MoveActivity.class);
                 startActivity(moveIntent);
                 break;
 
+            // pindah activity membawa data
             case R.id.btn_move_activity_data:
                 Intent moveWithDataIntent = new Intent(MainActivity.this, MoveWithDataActivity.class);
                 moveWithDataIntent.putExtra(MoveWithDataActivity.EXTRA_NAME, "DicodingAcademy Boy");
@@ -56,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(moveWithDataIntent);
                 break;
 
+            // pindah activity dengan membawa object
             case R.id.btn_move_activity_object:
                 Person mPerson = new Person();
                 mPerson.setName("DicodingAcademy");
@@ -67,12 +71,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(moveWithObejctIntent);
                 break;
 
+            // memanggil intent implicit, dial number
             case R.id.btn_dial_number:
                 String phoneNumber = "08562711435";
                 Intent dialPhoneIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+phoneNumber));
                 startActivity(dialPhoneIntent);
                 break;
 
+            // pindah activity dan membawa data dari activity selanjutnya
             case R.id.btn_move_for_result:
                 Intent moveForResultIntent = new Intent(MainActivity.this, MoveForResultActivity.class);
                 startActivityForResult(moveForResultIntent, REQUEST_CODE);
@@ -80,11 +86,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+
+    // Ketika MoveForResultActivity telah tertutup sempurna, maka metode onActivityResult() pada MainActivity akan dijalankan.
+    // Di sinilah MainActivity akan merespon terhadap nilai balik yang dikirimkan oleh MoveForResultActivity.
+    // Pada baris 4 di atas, dilakukan perbandingan apakah requestCode sama dengan yang dikirimkan oleh MainActivity.
+    // Kemudian pada baris 5, diperiksa apakah nilai resultCode sama dengan resultCode yang dikirim oleh MoveForResultActivity.
+    // Bila iya, maka data RadioButton yang dipilih akan ditampilkan di textview tvResult.
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE) {
-            if (requestCode == MoveForResultActivity.RESULT_CODE) {
+            if (resultCode == MoveForResultActivity.RESULT_CODE) {
                 int selectedValue = data.getIntExtra(MoveForResultActivity.EXTRA_SELECTED_VALUE, 0);
                 tvResult.setText("Hasil : "+selectedValue);
             }
