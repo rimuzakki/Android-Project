@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
         list = new ArrayList<>();
         list.addAll(PresidentData.getListData());
 
+        setActionBarTitle("Mode List");
         showRecyclerList();
     }
 
@@ -42,16 +43,22 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        String title = null;
         switch (item.getItemId()) {
             case R.id.action_list:
+                title = "Mode List";
                 showRecyclerList();
                 break;
             case R.id.action_grid:
+                title = "Mode Grid";
                 showRecyclerGrid();
                 break;
             case R.id.action_cardview:
+                title = "Mode CardView";
+                showRecyclerCardView();
                 break;
         }
+        setActionBarTitle(title);
         return super.onOptionsItemSelected(item);
     }
 
@@ -60,5 +67,16 @@ public class MainActivity extends AppCompatActivity {
         GridPresidentAdapter gridPresidentAdapter = new GridPresidentAdapter(this);
         gridPresidentAdapter.setListPresident(list);
         rvCategory.setAdapter(gridPresidentAdapter);
+    }
+
+    private void showRecyclerCardView() {
+        rvCategory.setLayoutManager(new LinearLayoutManager(this));
+        CardViewPresidentAdapter cardViewPresidentAdapter = new CardViewPresidentAdapter(this);
+        cardViewPresidentAdapter.setListPresident(list);
+        rvCategory.setAdapter(cardViewPresidentAdapter);
+    }
+
+    private void setActionBarTitle(String title) {
+        getSupportActionBar().setTitle(title);
     }
 }
